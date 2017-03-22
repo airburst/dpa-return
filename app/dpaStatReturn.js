@@ -1,6 +1,4 @@
-const excel = require('./ExcelServiceXLSX');
-// const excel = require('./ExcelService');
-
+const excel = require('./excel/ExcelServiceXLSX');
 const template = './app/excel/templates/dpa-return-unprotected.xlsx';
 excel.read(template);
 
