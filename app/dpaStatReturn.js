@@ -23,6 +23,9 @@ module.exports = {
 
         excel.setCellValue(s, 'C5', 10);
 
+        let r = excel.getRange('A2:D5');
+        console.log(r);
+
         excel.write();
 
         // excel.read(template)

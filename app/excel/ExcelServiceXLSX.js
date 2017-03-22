@@ -8,7 +8,9 @@ const makeFilename = () => {
 module.exports = {
 
     read: (filename) => {
-        workbook = XLSX.readFile(filename);
+        // let opts = { cellStyles: true };
+        let opts = {};
+        workbook = XLSX.readFile(filename, opts);
     },
 
     // Returns first worksheet with name 
@@ -29,10 +31,24 @@ module.exports = {
         sheet[ref].v = value;
     },
 
+    getRange: (r) => {
+        let range = XLSX.utils.decode_range(r),
+            collection = [];
+        for (let R = range.s.r; R <= range.e.r; ++R) {
+            for (let C = range.s.c; C <= range.e.c; ++C) {
+                collection.push({ c: C, r: R });
+            }
+        }
+        return collection;
+    },
+
+    setRange: (r, data) => {
+
+    },
+
     write: (filename) => {
         if (!filename) { filename = makeFilename(); }
-        let wopts = { bookType: 'xlsx', bookSST: false, type: 'binary' };
-        XLSX.writeFile(workbook, filename, wopts);
+        XLSX.writeFile(workbook, filename);
     }
 
 }
