@@ -38,6 +38,7 @@ module.exports = class Transform {
     constructor() {
         this.data = null;
         this.error = null;
+        this.lastResult = [];
     }
 
     load() {
@@ -46,12 +47,12 @@ module.exports = class Transform {
 
     query(expression) {
         let { f, a, b } = parseExpression(expression);
-        console.log(f, a, b)                            //
-        return this.data.filter(row => f(row[a], b));
+        this.lastResult = this.data.filter(row => f(row[a], b));
+        return this.lastResult;
     }
 
-    count(criteria) {
-        return 0;
+    count() {
+        return this.lastResult.length;
     }
 
 }

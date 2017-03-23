@@ -17,11 +17,11 @@ const getData = () => {
 const processData = () => {
     // The run sequence of actions
     excel.read('./app/excel/templates/dpa-return.xlsx');
-    let data = transform.query('age gt 65');
-    console.log(data.length);
+    let count = transform.query('age gt 65').length;
+    console.log(count);
 
-    data = transform.query('dparequestedstartdate ge 2016-10-01')
-    console.log(data.length);
+    let data = transform.query('dparequestedstartdate ge 2016-10-01')
+    console.log(transform.count());
 
     // etc..
 
