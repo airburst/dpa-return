@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const dpa = require('./dpaStatReturn');
+const dpa = require('./dpa-stat-return');
 
 dpa.doDPA001();
 

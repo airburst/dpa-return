@@ -1,8 +1,8 @@
 const pg = require('pg');
-const config = require('./postgresConfig.js');
+const config = require('./eclipse-config.js');
 const pool = new pg.Pool(config);
 const query = require('pg-query');
-const sql = require('./sqlQueries');
+const sql = require('./sql');
 
 query.connectionParameters = `postgres://${config.user}:${config.password}@${config.host}:${config.port}/${config.database}`;
 
