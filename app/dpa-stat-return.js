@@ -1,7 +1,7 @@
-const Transforms = require('./data/transforms');
+const Transform = require('./data/transforms');
 const excel = require('./excel/excel-service');
 
-let transforms = new Transforms();
+let transform = new Transform();
 
 const handleError = (e) => {
     console.log(e);
@@ -9,7 +9,7 @@ const handleError = (e) => {
 }
 
 const getData = () => {
-    return transforms.load()
+    return transform.load()
         .then(results => { return results; })
         .catch(handleError);
 }
@@ -17,12 +17,15 @@ const getData = () => {
 const processData = () => {
     // The run sequence of actions
     excel.read('./app/excel/templates/dpa-return.xlsx');
-    let data = transforms.data;
-    console.log(data);
-    
+    let data = transform.query('age gt 65');
+    console.log(data.length);
+
+    data = transform.query('dparequestedstartdate ge 2016-10-01')
+    console.log(data.length);
+
     // etc..
 
-    excel.write();
+    // excel.write();
 }
 
 // Do the run sequence (async, once data is returned)
