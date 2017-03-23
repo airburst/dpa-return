@@ -11,7 +11,6 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "dotenv": "^4.0.0",
-    "exceljs": "^0.4.2",
     "express": "^4.15.2",
     "pg": "^6.1.4",
     "pg-query": "^0.11.0",
