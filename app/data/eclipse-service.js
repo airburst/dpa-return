@@ -4,6 +4,8 @@ const pool = new pg.Pool(config);
 const query = require('pg-query');
 const sql = require('./sql');
 
+const mock = require('./mock.json');
+
 query.connectionParameters = `postgres://${config.user}:${config.password}@${config.host}:${config.port}/${config.database}`;
 
 // Success and error handlers
@@ -20,7 +22,12 @@ const getTestData = () => {
     return promise.spread(onSuccess, onError);
 };
 
+const mockData = () => {
+    return new Promise((resolve, reject) => resolve(mock));
+}
+
 // Public data methods
 module.exports = {
-    getTestData: getTestData
+    // getTestData: getTestData
+    getTestData: mockData
 };

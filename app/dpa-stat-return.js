@@ -1,30 +1,31 @@
-const eclipse = require('./data/eclipse-service');
+const Transforms = require('./data/transforms');
 const excel = require('./excel/excel-service');
-const template = './app/excel/templates/dpa-return.xlsx';
 
-const doDPA001 = () => {
-    let data = eclipse.getTestData()
-        .then(results => {
-            console.log(results);
+let transforms = new Transforms();
 
-            // new excel.sheet('DPA001')
-            //     .setData('C5:D8', data)
-            //     .setData('C14:D17', data);
-        })
-        .catch(err => console.log(err));
+const handleError = (e) => {
+    console.log(e);
+    return null;
 }
 
-// Run script
-const run = () => {
-    excel.read(template);
+const getData = () => {
+    return transforms.load()
+        .then(results => { return results; })
+        .catch(handleError);
+}
 
-    doDPA001();
-    // etc.
+const processData = () => {
+    // The run sequence of actions
+    excel.read('./app/excel/templates/dpa-return.xlsx');
+    let data = transforms.data;
+    console.log(data);
+    
+    // etc..
 
-    // excel.write();
-};
+    excel.write();
+}
 
-
+// Do the run sequence (async, once data is returned)
 module.exports = {
-    run: run
+    run: () => { getData().then(processData).catch(handleError); }
 };
