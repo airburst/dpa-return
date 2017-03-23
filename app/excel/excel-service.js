@@ -33,12 +33,17 @@ const setCellValue = (sheet, ref, value) => {
     if (typeof (value) === 'number') { sheet[ref].t = 'n'; }    // Set cell type to number
 };
 
+/* Expects input to be a range e.g. 'A2:B3' or 'A4'
+   Returns null if no range or non-string range supplied. */
 const getRange = (r) => {
     if (!r) return null;
     if (typeof (r) !== 'string') return null;
-    return XLSX.utils.decode_range(r);
+    return XLSX.utils.decode_range(r.toUpperCase());
 };
 
+/* Expects a sheet (s), range string (r) and data array, to write into range.
+   If data array is smaller than the range, only available values are written.
+   If the array overlaps the range, any overlap is ignored. */
 const setRange = (s, r, data) => {
     let range = getRange(r);
     if (range && !isUnbound(range)) {
@@ -47,12 +52,12 @@ const setRange = (s, r, data) => {
             let col = 0;
             for (let C = range.s.c; C <= range.e.c; ++C) {
                 if (data[row] && data[row][col]) {
-                    let cell = XLSX.utils.decode_cell({ c: C, r: R });
-                    console.log('Setting', cell, data[row][col]);                   //
+                    let cell = XLSX.utils.encode_cell({ c: C, r: R });
+                    console.log(`Setting [${cell}] = ${data[row][col]}`);        //
                     setCellValue(s, cell, data[row][col++]);
                 }
-                row++;
             }
+            row++;
         }
     }
 };
@@ -62,7 +67,7 @@ const write = (filename) => {
     XLSX.writeFile(workbook, filename);
 };
 
-/* Public Methods */
+/* Export Public Methods */
 module.exports = {
     read: read,
     firstSheetWithName: firstSheetWithName,
