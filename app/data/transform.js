@@ -38,6 +38,29 @@ const parseExpression = (expression) => {
     return { f, a, b };
 }
 
+const hasNoBrackets = (text) => {
+    return (text.indexOf('(') === -1) && (text.indexOf(')') === -1);
+}
+
+const parseBrackets = (expression) => {
+    var a = [], r = [], combiners = [], lastClose = 0, level = 0;
+    for (var i = 0; i < expression.length; i++) {
+        if (expression.charAt(i) == '(') {
+            let ex = expression.substring(lastClose + 1, i);
+            if ((ex.length > 0) && (hasNoBrackets(ex))) { combiners.push({ level: level, expr: ex.trim() }); }
+            level++;
+            a.push(i);
+        }
+        if (expression.charAt(i) == ')') {
+            lastClose = i;
+            level--;
+            let ex = expression.substring(a.pop() + 1, i);
+            if (hasNoBrackets(ex)) { r.push({ level: level, expr: ex }); }
+        }
+    }
+    return { expressions: r, combiners: combiners };
+}
+
 // Public Class
 module.exports = class Transform {
 
