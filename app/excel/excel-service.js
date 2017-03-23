@@ -67,8 +67,29 @@ const write = (filename) => {
     XLSX.writeFile(workbook, filename);
 };
 
+// Chainable Methods in sheet class
+class sheet {
+    
+    constructor(tabName) {
+        this._sheet = {};
+        this.name(tabName);
+    }
+
+    name(name) {
+        this._sheet = firstSheetWithName(name);
+        return this;
+    }
+
+    setData(r, data) {
+        setRange(this._sheet, r, data);
+        return this;
+    }
+
+}
+
 /* Export Public Methods */
 module.exports = {
+    sheet: sheet,
     read: read,
     firstSheetWithName: firstSheetWithName,
     getCellValue: getCellValue,
