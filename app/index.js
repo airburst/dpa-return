@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const dpa = require('./dpa-stat-return');
+const dpaReturn = require('./dpa-stat-return');
 
-dpa.doDPA001();
+dpaReturn.run();
 
 // Define API routes
 // app.use('/api', bodyParser.json(), apolloExpress({ schema }));

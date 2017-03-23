@@ -5,6 +5,11 @@ const makeFilename = () => {
     return new Date().toISOString().slice(0, 10) + '.xlsx';
 };
 
+const isUnbound = (range) => {
+    return ((range.s.r === NaN) || (range.e.r === NaN) || (range.s.c === NaN) || (range.e.c === NaN));
+}
+
+
 const read = (filename) => {
     // let opts = { cellStyles: true };
     let opts = {};
@@ -25,21 +30,31 @@ const getCellValue = (sheet, ref) => {
 const setCellValue = (sheet, ref, value) => {
     if (!sheet[ref]) { sheet[ref] = {}; }
     sheet[ref].v = value;
+    if (typeof (value) === 'number') { sheet[ref].t = 'n'; }    // Set cell type to number
 };
 
 const getRange = (r) => {
-    let range = XLSX.utils.decode_range(r),
-        collection = [];
-    for (let R = range.s.r; R <= range.e.r; ++R) {
-        for (let C = range.s.c; C <= range.e.c; ++C) {
-            collection.push({ c: C, r: R });
-        }
-    }
-    return collection;
+    if (!r) return null;
+    if (typeof (r) !== 'string') return null;
+    return XLSX.utils.decode_range(r);
 };
 
-const setRange = (r, data) => {
-    console.log(getRange(r))
+const setRange = (s, r, data) => {
+    let range = getRange(r);
+    if (range && !isUnbound(range)) {
+        let row = 0;
+        for (let R = range.s.r; R <= range.e.r; ++R) {
+            let col = 0;
+            for (let C = range.s.c; C <= range.e.c; ++C) {
+                if (data[row] && data[row][col]) {
+                    let cell = XLSX.utils.decode_cell({ c: C, r: R });
+                    console.log('Setting', cell, data[row][col]);                   //
+                    setCellValue(s, cell, data[row][col++]);
+                }
+                row++;
+            }
+        }
+    }
 };
 
 const write = (filename) => {
