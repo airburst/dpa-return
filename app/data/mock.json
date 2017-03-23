@@ -1,0 +1,114 @@
+[
+    {
+        "age": 75,
+        "typeofloan": "MANDATORY SCHEME",
+        "typeofservice": "Residential/Nursing",
+        "applicationoutcome": "DPA provided with top-up",
+        "primarycontributionarrangement": "User contributing from income to cost of care",
+        "dparequestedstartdate": "2016-07-10T23:00:00.000Z"
+    },
+    {
+        "age": 69,
+        "typeofloan": "DISCRETIONARY SCHEME",
+        "typeofservice": "Extra care housing",
+        "applicationoutcome": "DPA provided without top-up",
+        "primarycontributionarrangement": "DPA for full cost of residential or nursing home place",
+        "dparequestedstartdate": "2016-07-09T23:00:00.000Z"
+    },
+    {
+        "age": 57,
+        "typeofloan": "LEGACY SCHEME",
+        "typeofservice": "Residential/Nursing",
+        "applicationoutcome": "DPA provided with top-up",
+        "primarycontributionarrangement": "LA contributing to cost of care through the means test",
+        "dparequestedstartdate": "2016-08-04T23:00:00.000Z"
+    },
+    {
+        "age": 73,
+        "typeofloan": "MANDATORY SCHEME",
+        "typeofservice": "Residential/Nursing",
+        "applicationoutcome": "DPA provided with top-up",
+        "primarycontributionarrangement": "DPA for full cost of residential or nursing home place",
+        "dparequestedstartdate": "2016-08-06T23:00:00.000Z"
+    },
+    {
+        "age": 70,
+        "typeofloan": "MANDATORY SCHEME",
+        "typeofservice": "Residential/Nursing",
+        "applicationoutcome": "DPA provided with top-up",
+        "primarycontributionarrangement": "LA contributing to cost of care through the means test",
+        "dparequestedstartdate": "2016-07-23T23:00:00.000Z"
+    },
+    {
+        "age": 74,
+        "typeofloan": "MANDATORY SCHEME",
+        "typeofservice": "Residential/Nursing",
+        "applicationoutcome": "DPA provided with top-up",
+        "primarycontributionarrangement": "DPA for full cost of residential or nursing home place",
+        "dparequestedstartdate": "2016-07-09T23:00:00.000Z"
+    },
+    {
+        "age": 36,
+        "typeofloan": "DISCRETIONARY SCHEME",
+        "typeofservice": "Residential/Nursing",
+        "applicationoutcome": "DPA provided with top-up",
+        "primarycontributionarrangement": "LA contributing to cost of care through the means test",
+        "dparequestedstartdate": "2016-10-05T23:00:00.000Z"
+    },
+    {
+        "age": 84,
+        "typeofloan": "MANDATORY SCHEME",
+        "typeofservice": "Residential/Nursing",
+        "applicationoutcome": "DPA provided with top-up",
+        "primarycontributionarrangement": "DPA for full cost of residential or nursing home place",
+        "dparequestedstartdate": "2016-07-19T23:00:00.000Z"
+    },
+    {
+        "age": 92,
+        "typeofloan": "MANDATORY SCHEME",
+        "typeofservice": "Residential/Nursing",
+        "applicationoutcome": "DPA provided with top-up",
+        "primarycontributionarrangement": "DPA for full cost of residential or nursing home place",
+        "dparequestedstartdate": "2016-07-31T23:00:00.000Z"
+    },
+    {
+        "age": 69,
+        "typeofloan": "MANDATORY SCHEME",
+        "typeofservice": "Residential/Nursing",
+        "applicationoutcome": "DPA provided with top-up",
+        "primarycontributionarrangement": "DPA for full cost of residential or nursing home place",
+        "dparequestedstartdate": "2016-08-01T23:00:00.000Z"
+    },
+    {
+        "age": 93,
+        "typeofloan": "MANDATORY SCHEME",
+        "typeofservice": "Residential/Nursing",
+        "applicationoutcome": "DPA provided with top-up",
+        "primarycontributionarrangement": "LA contributing to cost of care through the means test",
+        "dparequestedstartdate": "2016-08-03T23:00:00.000Z"
+    },
+    {
+        "age": 0,
+        "typeofloan": "MANDATORY SCHEME",
+        "typeofservice": "Residential/Nursing",
+        "applicationoutcome": "DPA provided with top-up",
+        "primarycontributionarrangement": "DPA for full cost of residential or nursing home place",
+        "dparequestedstartdate": "2016-10-13T23:00:00.000Z"
+    },
+    {
+        "age": 0,
+        "typeofloan": "MANDATORY SCHEME",
+        "typeofservice": "Residential/Nursing",
+        "applicationoutcome": "DPA provided with top-up",
+        "primarycontributionarrangement": "DPA for full cost of residential or nursing home place",
+        "dparequestedstartdate": "2016-08-06T23:00:00.000Z"
+    },
+    {
+        "age": 15,
+        "typeofloan": "DISCRETIONARY SCHEME",
+        "typeofservice": "Residential/Nursing",
+        "applicationoutcome": "DPA provided with top-up",
+        "primarycontributionarrangement": "LA contributing to cost of care through the means test",
+        "dparequestedstartdate": "2016-10-17T23:00:00.000Z"
+    }
+]

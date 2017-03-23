@@ -8,18 +8,19 @@ query.connectionParameters = `postgres://${config.user}:${config.password}@${con
 
 // Success and error handlers
 const handleError = (err) => {
-    console.log(err || err.message)
-    return [];                          // Ensure correct type
+    console.log(err || err.message);
+    return [];
 }
 const onSuccess = (rows, result) => { return rows; }
 const onError = (error) => { return handleError(error); }
 
+// Methods 
+const getTestData = () => {
+    var promise = query(sql.getTestData);
+    return promise.spread(onSuccess, onError);
+};
+
 // Public data methods
 module.exports = {
-
-    getUserByName: (params) => {
-        var promise = query(sql.getUserByName(params.name));
-        return promise.spread(onSuccess, onError);
-    }
-
-}
+    getTestData: getTestData
+};
