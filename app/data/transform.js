@@ -11,6 +11,12 @@ const operators = {
     'exc': (a, b) => { return a.indexOf(b) === -1; }
 };
 
+const combiners = {
+    'and': (a, b) => { return a && b; },
+    'or': (a, b) => { return a || b; },
+    'not': (a) => { return !a; }
+};
+
 let isNumber = (text) => {
     return typeof (text) === 'number';
 }
@@ -27,7 +33,7 @@ const parseExpression = (expression) => {
     let parts = expression.split(' ').filter(p => p.length > 0);
     if (parts.length !== 3) return false;
     let a = cast(parts[0]),
-        f = operators[parts[1]],
+        f = operators[parts[1].toLowerCase()],
         b = cast(parts[2]);
     return { f, a, b };
 }
