@@ -59,7 +59,7 @@ const combine = (functions, op) => {
     return (arr) => combiners[op](functions.map(f => f(arr)));
 }
 
-const simplifyBrackets = (expression) => {
+const parseExpression = (expression) => {
     var a = [], r = [], combiners = [], lastClose = 0, level = 0, depth = { max: 0, min: Infinity };
     for (var i = 0; i < expression.length; i++) {
         if (expression.charAt(i) == '(') {
@@ -91,22 +91,28 @@ const simplifyBrackets = (expression) => {
 }
 
 const evaluateTree = (tree) => {
+    console.log(tree)
     let d = tree.depth,
         f = tree.functions,
+        c = tree.combiners,
         combineList = [],
-        nextLevel = [];
+        nextLevel = { functions: [], combiners: [], depth: { min: d.min, max: d.max - 1 } };  // Watch max >= min
     for (let i = 0; i < f.length; i++) {
         if (f[i].l === d.max) {
-            while (f[i].l === d.max) {
+            while (f[i] && f[i].l === d.max) {
                 combineList.push((f[i].eval) ? f[i].eval : f[i].c);     // Push simple or combined function
+                if (c[i] && c[i].l < d.max) { nextLevel.combiners.push(c[i]); }
                 i++;
             }
-            nextLevel.push({ l: d.max - 1, c: combine(combineList, 'or') });    // Might play up for long chains!
+            nextLevel.functions.push({ l: d.max - 1, c: combine(combineList, 'or') });
             combineList = [];
         }
-        nextLevel.push(f[i]);
+        nextLevel.functions.push(f[i]);
+        if (c[i]) { nextLevel.combiners.push(c[i]); }
     }
-    console.log(nextLevel);
+    // console.log(nextLevel);
+    if (d.max <= d.min) return tree.functions[0].c;
+    return evaluateTree(nextLevel);
 }
 
 // Public Class
