@@ -17,49 +17,61 @@ const combiners = {
     'not': (a) => { return !a; }
 };
 
-let isNumber = (text) => {
-    return typeof (text) === 'number';
+const removeQuotes = (text) => {
+    return text.replace(/'/g, "").replace(/"/g, "");
 }
 
-let castNum = (text) => {
-    return parseFloat(text, 10);
+const filterFloat = (value) => {
+    if (/^(\-|\+)?([0-9]+(\.[0-9]+)?|Infinity)$/
+        .test(value))
+        return Number(value);
+    return removeQuotes(value);
 }
 
 let cast = (text) => {
-    return isNumber(text) ? castNum(text) : text;
+    return filterFloat(text);
 }
 
-const parseExpression = (expression) => {
+// Split input expression into three parts
+const makeFunction = (expression) => {
     let parts = expression.split(' ').filter(p => p.length > 0);
-    if (parts.length !== 3) return false;
+    if (parts.length < 3) return null;
     let a = cast(parts[0]),
         f = operators[parts[1].toLowerCase()],
-        b = cast(parts[2]);
+        b = cast(parts.slice(2, parts.length).join(' '));    // Combine any parts after 2
     return { f, a, b };
+}
+
+const evaluate = (params, arr) => {
+    let { f, a, b } = params;
+    if (arr && arr[a]) return f(arr[a], b);
+    return f(a, b);
 }
 
 const hasNoBrackets = (text) => {
     return (text.indexOf('(') === -1) && (text.indexOf(')') === -1);
 }
 
-const parseBrackets = (expression) => {
+const simplifyBrackets = (expression) => {
     var a = [], r = [], combiners = [], lastClose = 0, level = 0;
     for (var i = 0; i < expression.length; i++) {
         if (expression.charAt(i) == '(') {
-            let ex = expression.substring(lastClose + 1, i);
-            if ((ex.length > 0) && (hasNoBrackets(ex))) { combiners.push({ level: level, expr: ex.trim() }); }
+            let ex = expression.substring(lastClose + 1, i).trim();
+            if ((ex.length > 0) && (hasNoBrackets(ex))) { combiners.push({ l: level, op: ex.trim() }); }
             level++;
             a.push(i);
         }
         if (expression.charAt(i) == ')') {
             lastClose = i;
             level--;
-            let ex = expression.substring(a.pop() + 1, i);
-            if (hasNoBrackets(ex)) { r.push({ level: level, expr: ex }); }
+            let ex = expression.substring(a.pop() + 1, i).trim();
+            if (hasNoBrackets(ex)) { r.push({ l: level, fn: makeFunction(ex) }); }
         }
     }
     return { expressions: r, combiners: combiners };
 }
+
+
 
 // Public Class
 module.exports = class Transform {
@@ -75,8 +87,7 @@ module.exports = class Transform {
     }
 
     query(expression) {
-        let { f, a, b } = parseExpression(expression);
-        this.lastResult = this.data.filter(row => f(row[a], b));
+        this.lastResult = this.data.filter(row => evaluate(makeFunction(expression), row));
         return this.lastResult;
     }
 
