@@ -61,7 +61,7 @@ const combine = (f1, f2, op, arr) => {
 }
 
 const simplifyBrackets = (expression) => {
-    var a = [], r = [], combiners = [], lastClose = 0, level = 0, depth = 0;
+    var a = [], r = [], combiners = [], lastClose = 0, level = 0, depth = { max: 0, min: Infinity };
     for (var i = 0; i < expression.length; i++) {
         if (expression.charAt(i) == '(') {
             let ex = expression.substring(lastClose + 1, i).trim();
@@ -72,14 +72,15 @@ const simplifyBrackets = (expression) => {
         if (expression.charAt(i) == ')') {
             lastClose = i;
             level--;
-            depth = Math.max(depth, level);
             let ex = expression.substring(a.pop() + 1, i).trim();
-            if (hasNoBrackets(ex)) { 
-                r.push({ 
-                    l: level, 
+            if (hasNoBrackets(ex)) {
+                depth.min = Math.min(depth.min, level);
+                depth.max = Math.max(depth.max, level);
+                r.push({
+                    l: level,
                     fn: makeFunction(ex),
                     eval: evalWrap(makeFunction(ex), arr)
-                }); 
+                });
             }
         }
     }
