@@ -32,6 +32,10 @@ let cast = (text) => {
     return filterFloat(text);
 }
 
+const hasNoBrackets = (text) => {
+    return (text.indexOf('(') === -1) && (text.indexOf(')') === -1);
+}
+
 // Split input expression into three parts
 const makeFunction = (expression) => {
     let parts = expression.split(' ').filter(p => p.length > 0);
@@ -48,12 +52,16 @@ const evaluate = (params, arr) => {
     return f(a, b);
 }
 
-const hasNoBrackets = (text) => {
-    return (text.indexOf('(') === -1) && (text.indexOf(')') === -1);
+const evalWrap = (f, arr) => {
+    return (arr) => evaluate(f, arr);
+}
+
+const combine = (f1, f2, op, arr) => {
+    return (arr) => combiners[op](f1(arr), f2(arr));
 }
 
 const simplifyBrackets = (expression) => {
-    var a = [], r = [], combiners = [], lastClose = 0, level = 0;
+    var a = [], r = [], combiners = [], lastClose = 0, level = 0, depth = 0;
     for (var i = 0; i < expression.length; i++) {
         if (expression.charAt(i) == '(') {
             let ex = expression.substring(lastClose + 1, i).trim();
@@ -64,14 +72,23 @@ const simplifyBrackets = (expression) => {
         if (expression.charAt(i) == ')') {
             lastClose = i;
             level--;
+            depth = Math.max(depth, level);
             let ex = expression.substring(a.pop() + 1, i).trim();
-            if (hasNoBrackets(ex)) { r.push({ l: level, fn: makeFunction(ex) }); }
+            if (hasNoBrackets(ex)) { 
+                r.push({ 
+                    l: level, 
+                    fn: makeFunction(ex),
+                    eval: evalWrap(makeFunction(ex), arr)
+                }); 
+            }
         }
     }
-    return { expressions: r, combiners: combiners };
+    return {
+        functions: r,
+        combiners: combiners,
+        depth: depth
+    };
 }
-
-
 
 // Public Class
 module.exports = class Transform {
