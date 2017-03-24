@@ -12,9 +12,8 @@ const operators = {
 };
 
 const combiners = {
-    'and': (a, b) => { return a && b; },
-    'or': (a, b) => { return a || b; },
-    'not': (a) => { return !a; }
+    'and': (args) => { return args.reduce((a, b) => a && b); },
+    'or': (args) => { return args.reduce((a, b) => a || b); }
 };
 
 const removeQuotes = (text) => {
@@ -56,8 +55,8 @@ const evalWrap = (f, arr) => {
     return (arr) => evaluate(f, arr);
 }
 
-const combine = (f1, f2, op, arr) => {
-    return (arr) => combiners[op](f1(arr), f2(arr));
+const combine = (functions, op, arr) => {
+    return (arr) => combiners[op](functions.map(f => f(arr)));
 }
 
 const simplifyBrackets = (expression) => {
