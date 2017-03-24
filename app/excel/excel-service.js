@@ -1,4 +1,4 @@
-const XLSX = require('xlsx');
+const XLSX = require('xlsx-style');
 let workbook;
 
 const makeFilename = () => {
@@ -11,8 +11,8 @@ const isUnbound = (range) => {
 
 
 const read = (filename) => {
-    // let opts = { cellStyles: true };
-    let opts = {};
+    let opts = {cellStyles: true };
+    // let opts = {};
     workbook = XLSX.readFile(filename, opts);
 };
 
@@ -32,6 +32,12 @@ const setCellValue = (sheet, ref, value) => {
     sheet[ref].v = value;
     if (typeof (value) === 'number') { sheet[ref].t = 'n'; }    // Set cell type to number
 };
+
+const setCellStyle = (sheet, ref, style) => {
+    if (!sheet[ref]) { sheet[ref] = {}; }
+    sheet[ref].s = style;
+};
+
 
 /* Expects input to be a range e.g. 'A2:B3' or 'A4'
    Returns null if no range or non-string range supplied. */
@@ -62,6 +68,15 @@ const setRange = (s, r, data) => {
     }
 };
 
+const setColWidth = (s, col, width) => {
+    s['!cols'] = s['!cols'] || [];
+    s['!cols'][col] = ({ width: width });
+};
+
+const setColsForSheet = (s, cols) => {
+    s['!cols'] = cols;
+};
+
 const write = (filename) => {
     if (!filename) { filename = makeFilename(); }
     XLSX.writeFile(workbook, filename);
@@ -85,6 +100,11 @@ class sheet {
         return this;
     }
 
+    setStyle(r, style) {
+        setCellStyle(this._sheet, r, style)
+        return this;
+    }
+
 }
 
 /* Export Public Methods */
@@ -96,5 +116,7 @@ module.exports = {
     setCellValue: setCellValue,
     getRange: getRange,
     setRange: setRange,
+    setColWidth: setColWidth,
+    setColsForSheet: setColsForSheet,
     write: write
 }
