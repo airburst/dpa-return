@@ -51,11 +51,11 @@ const evaluate = (params, arr) => {
     return f(a, b);
 }
 
-const evalWrap = (f, arr) => {
+const evalWrap = (f) => {
     return (arr) => evaluate(f, arr);
 }
 
-const combine = (functions, op, arr) => {
+const combine = (functions, op) => {
     return (arr) => combiners[op](functions.map(f => f(arr)));
 }
 
@@ -78,7 +78,7 @@ const simplifyBrackets = (expression) => {
                 r.push({
                     l: level,
                     fn: makeFunction(ex),
-                    eval: evalWrap(makeFunction(ex), arr)
+                    eval: evalWrap(makeFunction(ex))
                 });
             }
         }
@@ -88,6 +88,25 @@ const simplifyBrackets = (expression) => {
         combiners: combiners,
         depth: depth
     };
+}
+
+const evaluateTree = (tree) => {
+    let d = tree.depth,
+        f = tree.functions,
+        combineList = [],
+        nextLevel = [];
+    for (let i = 0; i < f.length; i++) {
+        if (f[i].l === d.max) {
+            while (f[i].l === d.max) {
+                combineList.push((f[i].eval) ? f[i].eval : f[i].c);     // Push simple or combined function
+                i++;
+            }
+            nextLevel.push({ l: d.max - 1, c: combine(combineList, 'or') });    // Might play up for long chains!
+            combineList = [];
+        }
+        nextLevel.push(f[i]);
+    }
+    console.log(nextLevel);
 }
 
 // Public Class
