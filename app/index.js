@@ -1,12 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const dpaReturn = require('./dpa-stat-return');
+// const dpaReturn = require('./dpa-stat-return');
 
-dpaReturn.run();
+// dpaReturn.run();
 
-// Define API routes
-// app.use('/api', bodyParser.json(), apolloExpress({ schema }));
+const Excel = require('./excel/exceljs-service');
+const excel = new Excel();
 
-// // Start server
-// app.listen(4000, () => console.log('Now browse to localhost:4000/graphiql'));
+excel.read('./app/excel/templates/dpa-template.xlsx')
+    .then(workbook => excel.write())
+    .catch(err => console.log(err));

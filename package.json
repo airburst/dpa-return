@@ -11,10 +11,11 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "dotenv": "^4.0.0",
+    "exceljs": "^0.4.12",
     "express": "^4.15.2",
     "pg": "^6.1.4",
     "pg-query": "^0.11.0",
-    "xlsx": "^0.9.4",
+    "xlsx": "^0.10.5",
     "xlsx-style": "^0.8.13"
   }
 }

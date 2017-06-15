@@ -1,4 +1,4 @@
-const XLSX = require('xlsx-style');
+const XLSX = require('xlsx');
 let workbook;
 
 const makeFilename = () => {
@@ -8,7 +8,6 @@ const makeFilename = () => {
 const isUnbound = (range) => {
     return ((range.s.r === NaN) || (range.e.r === NaN) || (range.s.c === NaN) || (range.e.c === NaN));
 }
-
 
 const read = (filename) => {
     let opts = {cellStyles: true };

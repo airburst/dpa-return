@@ -27,7 +27,7 @@ const processData = () => {
     let sheet = new excel.sheet('DPA001');
     let colWidths = [
         { width: 10, wpx: 10 },
-        { width: 50, wpx: 50 },
+        { width: 30, wpx: 30 },
     ];
     excel.setColsForSheet(sheet, colWidths);
     console.log(sheet['!cols'])
