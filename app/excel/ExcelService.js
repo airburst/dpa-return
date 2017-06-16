@@ -26,18 +26,17 @@ class ExcelService {
         return this.workbook.xlsx.readFile(filename);
     }
 
-    write(filename) {
-        this.reOrder();
-        const f = filename || this.makeFilename();
-        return this.workbook.xlsx.writeFile(f);
-    }
-
-    makeFilename() {
-        return new Date().toISOString().slice(0, 10) + '.xlsx';
-    };
-
     listSheets(workbook) {
         this.workbook.eachSheet((sheet, id) => (console.log(id, sheet.name)));
+    }
+
+    loadData(data) {
+        data.map(record => {
+            if(this.workbook.getWorksheet(record.sheet) !== undefined) {
+                Object.entries(record.data)
+                    .map(([k, v]) => this.writeValue(record.sheet, k.toUpperCase(), v));
+            }
+        });
     }
 
     writeValue(sheet, cell, value) {
@@ -55,6 +54,16 @@ class ExcelService {
             this.workbook._worksheets[v.id] = v;
         });
     }
+
+    write(filename) {
+        this.reOrder();
+        const f = filename || this.makeFilename();
+        return this.workbook.xlsx.writeFile(f);
+    }
+
+    makeFilename() {
+        return new Date().toISOString().slice(0, 10) + '.xlsx';
+    };
 
 }
 
