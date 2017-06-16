@@ -4,11 +4,11 @@
 const ExcelService = require('./excel/ExcelService');
 const excel = new ExcelService();
 
-const data = require('./data/data.json');
+const data = require('./data/sqlData.json');
 
 excel.read('./app/excel/templates/dpa-template.xlsx')
     .then((w) => {
-        excel.loadData(data);
+        excel.loadTableData(data);
         excel.write();
     })
     .catch(err => console.log(err));

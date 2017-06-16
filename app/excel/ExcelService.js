@@ -1,6 +1,7 @@
 const Excel = require('exceljs');
 const sheetOrder = [
     'Cover',
+    'DATA',
     'Version control',
     'DPA001 - Activity Data',
     'DPA002 - Finance Data',
@@ -30,13 +31,39 @@ class ExcelService {
         this.workbook.eachSheet((sheet, id) => (console.log(id, sheet.name)));
     }
 
-    loadData(data) {
+    loadJsonData(data) {
         data.map(record => {
-            if(this.workbook.getWorksheet(record.sheet) !== undefined) {
+            if (this.workbook.getWorksheet(record.sheet) !== undefined) {
                 Object.entries(record.data)
                     .map(([k, v]) => this.writeValue(record.sheet, k.toUpperCase(), v));
             }
         });
+    }
+
+    loadTableData(data) {
+        data.map((record, r) => {
+            record.map((val, c) => {
+                this.writeValue('DATA', this.cell(r + 2, c + 1), val);
+            });
+        });
+    }
+
+    cell(r, c) {
+        return this.numToCell(c) + r;
+    }
+
+    numToCell(n) {
+        let right = n % 26,
+            left = Math.floor(n - right) / 26;
+        if ((right === 0) && (left > 0)) { 
+            right += 26;
+            left -= 1;
+        }
+        return this.letter(left) + this.letter(right);
+    }
+
+    letter(n) {
+        return (n > 0) ? String.fromCharCode(n + 64) : '';
     }
 
     writeValue(sheet, cell, value) {
